@@ -16,7 +16,7 @@ public class LogIn {
                 return true;
             } else {
 
-                System.out.println("No rows found.");
+
                 return false;
             }
 

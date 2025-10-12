@@ -3,11 +3,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Db {
+    String url = System.getenv("db_url_clients");
+    String user = System.getenv("db_user");
+    String pass = System.getenv("db_pass");
 
-    public static Connection dbConnect(){
-        String url = System.getenv("db_url_clients");
-        String user = System.getenv("db_user");
-        String pass = System.getenv("db_pass");
+    public static Connection dbConnectClients(){
+
         System.out.println(url+user+pass);
         try {
             Connection conn = DriverManager.getConnection(url, user, pass);
@@ -17,6 +18,12 @@ public class Db {
             throw new RuntimeException(e);
 
         }
+    Connection dbConnectAccounts(){
+
+
+        }
 
     }
+
+
 }
