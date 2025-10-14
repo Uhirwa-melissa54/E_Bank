@@ -3,13 +3,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Db {
-    String url = System.getenv("db_url_clients");
-    String user = System.getenv("db_user");
-    String pass = System.getenv("db_pass");
+
 
     public static Connection dbConnectClients(){
+        String url = System.getenv("db_url_clients");
+        String user = System.getenv("db_user");
+        String pass = System.getenv("db_pass");
 
-        System.out.println(url+user+pass);
+
         try {
             Connection conn = DriverManager.getConnection(url, user, pass);
             System.out.println("Database connectivity");
@@ -18,7 +19,7 @@ public class Db {
             throw new RuntimeException(e);
 
         }
-    Connection dbConnectAccounts(){
+
 
 
         }
@@ -26,4 +27,4 @@ public class Db {
     }
 
 
-}
+
