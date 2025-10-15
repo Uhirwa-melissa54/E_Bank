@@ -47,4 +47,47 @@ public class Account {
             System.out.println(e);
         }
     }
+    public static boolean deposit(Connection conn, int clientId, String accountName, int amount) {
+        try {
+            // 1️⃣ Check if the account exists and get the current balance
+            PreparedStatement checkStmt = conn.prepareStatement(
+                    "SELECT balance FROM accounts WHERE client_id=? AND accountName=?"
+            );
+            checkStmt.setInt(1, clientId);
+            checkStmt.setString(2, accountName);
+
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("Account not found!");
+                return false;
+            }
+
+            int currentBalance = rs.getInt("balance");
+
+            // 2️⃣ Update balance after deposit
+            PreparedStatement updateStmt = conn.prepareStatement(
+                    "UPDATE accounts SET balance=? WHERE client_id=? AND accountName=?"
+            );
+            updateStmt.setInt(1, currentBalance + amount);
+            updateStmt.setInt(2, clientId);
+            updateStmt.setString(3, accountName);
+
+            int rowsAffected = updateStmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Deposit successful! New balance: " + (currentBalance + amount));
+                return true;
+            } else {
+                System.out.println("Failed to update balance.");
+                return false;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
+
 }
