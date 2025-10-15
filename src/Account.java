@@ -89,5 +89,27 @@ public class Account {
         }
     }
 
+    public static void checkBalance(Connection conn, int clientId, String accountName) {
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT balance FROM accounts WHERE client_id=? AND accountName=?"
+            );
+            stmt.setInt(1, clientId);
+            stmt.setString(2, accountName);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int balance = rs.getInt("balance");
+                System.out.println("Account: " + accountName + " | Current balance: " + balance);
+            } else {
+                System.out.println("Account not found!");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
 
 }
