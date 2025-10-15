@@ -25,4 +25,26 @@ public class Account {
             System.out.println(e);
         }
     }
+
+    public static void viewAccounts(Connection conn, int clientId) {
+        try {
+            PreparedStatement stm = conn.prepareStatement(
+                    "SELECT accountName, accountType, balance FROM accounts WHERE client_id=?"
+            );
+            stm.setInt(1, clientId);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                String accountName = rs.getString("accountName");
+                String accountType = rs.getString("accountType");
+                int balance = rs.getInt("balance");
+
+                System.out.println("Account: " + accountName + ", Type: " + accountType + ", Balance: " + balance);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
