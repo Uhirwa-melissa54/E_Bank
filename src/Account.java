@@ -49,7 +49,7 @@ public class Account {
     }
     public static boolean deposit(Connection conn, int clientId, String accountName, int amount) {
         try {
-            // 1️⃣ Check if the account exists and get the current balance
+            //  Check if the account exists and get the current balance
             PreparedStatement checkStmt = conn.prepareStatement(
                     "SELECT balance FROM accounts WHERE client_id=? AND accountName=?"
             );
@@ -65,7 +65,7 @@ public class Account {
 
             int currentBalance = rs.getInt("balance");
 
-            // 2️⃣ Update balance after deposit
+            // Update balance after deposit
             PreparedStatement updateStmt = conn.prepareStatement(
                     "UPDATE accounts SET balance=? WHERE client_id=? AND accountName=?"
             );
