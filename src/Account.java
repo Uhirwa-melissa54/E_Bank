@@ -26,34 +26,14 @@ public class Account {
         }
     }
 
-    public static void viewAccounts(Connection conn, int clientId) {
-        try {
-            PreparedStatement stm = conn.prepareStatement(
-                    "SELECT accountName, accountType, balance FROM accounts WHERE client_id=?"
-            );
-            stm.setInt(1, clientId);
 
-            ResultSet rs = stm.executeQuery();
-
-            while (rs.next()) {
-                String accountName = rs.getString("accountName");
-                String accountType = rs.getString("accountType");
-                int balance = rs.getInt("balance");
-
-                System.out.println("Account: " + accountName + ", Type: " + accountType + ", Balance: " + balance);
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-    public static boolean deposit(Connection conn, int clientId, String accountName, int amount) {
+    public static boolean deposit(Connection conn, String name, String accountName, int amount) {
         try {
             //  Check if the account exists and get the current balance
             PreparedStatement checkStmt = conn.prepareStatement(
-                    "SELECT balance FROM accounts WHERE client_id=? AND accountName=?"
+                    "SELECT balance FROM accounts WHERE nameofowner=? AND accountName=?"
             );
-            checkStmt.setInt(1, clientId);
+            checkStmt.setString(1, name);
             checkStmt.setString(2, accountName);
 
             ResultSet rs = checkStmt.executeQuery();
@@ -67,10 +47,10 @@ public class Account {
 
             // Update balance after deposit
             PreparedStatement updateStmt = conn.prepareStatement(
-                    "UPDATE accounts SET balance=? WHERE client_id=? AND accountName=?"
+                    "UPDATE accounts SET balance=? WHERE name=? AND accountName=?"
             );
             updateStmt.setInt(1, currentBalance + amount);
-            updateStmt.setInt(2, clientId);
+            updateStmt.setString(2, name);
             updateStmt.setString(3, accountName);
 
             int rowsAffected = updateStmt.executeUpdate();
