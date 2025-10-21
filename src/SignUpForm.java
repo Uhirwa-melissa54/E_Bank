@@ -3,68 +3,65 @@ import java.awt.*;
 
 public class SignUpForm {
     public static void main(String[] args) {
-        // Create the frame
         JFrame frame = new JFrame("Signup Form");
-        frame.setSize(400, 400);
+        frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setLocationRelativeTo(null);
 
-        // Create a panel with a border
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createTitledBorder("Signup"));
-        panel.setLayout(new GridBagLayout());
+        // Main panel with padding
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Title at the top
+        JLabel titleLabel = new JLabel("Signup", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Form panel (no border)
+        JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Name Label and TextField
-        JLabel nameLabel = new JLabel("Name:");
-        JTextField nameField = new JTextField(20);
+        // Name
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(nameLabel, gbc);
+        formPanel.add(new JLabel("Name:"), gbc);
         gbc.gridx = 1;
-        panel.add(nameField, gbc);
+        formPanel.add(new JTextField(15), gbc);
 
-        // Email Label and TextField
-        JLabel emailLabel = new JLabel("Email:");
-        JTextField emailField = new JTextField(20);
+        // Email
         gbc.gridx = 0;
         gbc.gridy = 1;
-        panel.add(emailLabel, gbc);
+        formPanel.add(new JLabel("Email:"), gbc);
         gbc.gridx = 1;
-        panel.add(emailField, gbc);
+        formPanel.add(new JTextField(15), gbc);
 
-        // Location Label and TextField
-        JLabel locationLabel = new JLabel("Location:");
-        JTextField locationField = new JTextField(20);
+        // Location
         gbc.gridx = 0;
         gbc.gridy = 2;
-        panel.add(locationLabel, gbc);
+        formPanel.add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
-        panel.add(locationField, gbc);
+        formPanel.add(new JTextField(15), gbc);
 
-        // Password Label and PasswordField
-        JLabel passwordLabel = new JLabel("Password:");
-        JPasswordField passwordField = new JPasswordField(20);
+        // Password
         gbc.gridx = 0;
         gbc.gridy = 3;
-        panel.add(passwordLabel, gbc);
+        formPanel.add(new JLabel("Password:"), gbc);
         gbc.gridx = 1;
-        panel.add(passwordField, gbc);
+        formPanel.add(new JPasswordField(15), gbc);
+
+        mainPanel.add(formPanel, BorderLayout.CENTER);
 
         // Signup button at the bottom
         JButton signupButton = new JButton("Signup");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(signupButton, gbc);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(signupButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add panel to frame
-        frame.add(panel);
-
-        // Make frame visible
+        frame.add(mainPanel);
         frame.setVisible(true);
     }
 }
