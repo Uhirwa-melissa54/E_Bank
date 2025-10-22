@@ -1,8 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
 
 public class SignUpForm {
-    public static void main(String[] args) {
+
+    public static void signUpForm() {
+        Connection conn=Db.dbConnectClients();
         JFrame frame = new JFrame("Signup Form");
         frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,8 +73,33 @@ public class SignUpForm {
         formPanel.add(buttonPanel,gbc );
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
+        //signupButton on click
+        signupButton.addActionListener(e -> {
+            String nameValue=name.getText();
+            String emailValue=name.getText();
+            String locationValue=name.getText();
+            String passwordValue=name.getText();
+            if(!nameValue.isEmpty() && !emailValue.isEmpty() && !locationValue.isEmpty() && !passwordValue.isEmpty()){
+                int results=SignUp.create(conn,nameValue,emailValue,locationValue,passwordValue);
+                if(results > 0){
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Signup successful!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
 
+                }
 
+            }
+            else{
+                JOptionPane.showMessageDialog(
+                        null,
+                        "All fields must be provided","Error",JOptionPane.ERROR);
+
+            }
+
+        });
 
         frame.add(mainPanel);
         frame.setVisible(true);
