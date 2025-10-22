@@ -76,9 +76,9 @@ public class SignUpForm {
         //signupButton on click
         signupButton.addActionListener(e -> {
             String nameValue=name.getText();
-            String emailValue=name.getText();
-            String locationValue=name.getText();
-            String passwordValue=name.getText();
+            String emailValue=email.getText();
+            String locationValue=location.getText();
+            String passwordValue=password.getText();
             if(!nameValue.isEmpty() && !emailValue.isEmpty() && !locationValue.isEmpty() && !passwordValue.isEmpty()){
                 int results=SignUp.create(conn,nameValue,emailValue,locationValue,passwordValue);
                 if(results > 0){
