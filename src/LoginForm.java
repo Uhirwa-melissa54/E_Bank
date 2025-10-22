@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class LoginForm extends JFrame {
 
     public LoginForm() {
+        Connection conn=Db.dbConnectClients();
         // Frame properties
         setTitle("Login Form");
         setSize(350, 250);
@@ -55,12 +57,15 @@ public class LoginForm extends JFrame {
         gbc.gridx = 1;
         panel.add(passwordField, gbc);
 
-        // Login Button
+
+
+        gbc.gridx=1;
+        gbc.gridy=4;
         JButton loginButton = new JButton("Login");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        panel.add(loginButton, gbc);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(loginButton);
+
+        panel.add(buttonPanel,gbc);
 
         // Button action
         loginButton.addActionListener(new ActionListener() {
@@ -69,9 +74,19 @@ public class LoginForm extends JFrame {
                 String name = nameField.getText();
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
+                if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
+                    String ok=LogIn.check(conn,name,password);
+                    if(!ok.isEmpty()){
+                        JOptionPane.showMessageDialog(null,"Logged in successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Invalid credentials","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                JOptionPane.showMessageDialog(null,"Invalid credentials","Error",JOptionPane.ERROR_MESSAGE);
 
-                JOptionPane.showMessageDialog(null,
-                        "Name: " + name + "\nEmail: " + email + "\nPassword: " + password);
+
+
             }
         });
 
@@ -79,7 +94,4 @@ public class LoginForm extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new LoginForm());
-    }
 }

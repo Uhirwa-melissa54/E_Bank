@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 
 public class SignUpForm {
@@ -71,6 +73,19 @@ public class SignUpForm {
         buttonPanel.add(signupButton);
 
         formPanel.add(buttonPanel,gbc );
+        gbc.gridx=3;
+        gbc.gridy=5;
+        JLabel linkLabel = new JLabel("<html><a href=''>Login</a></html>");
+        linkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        formPanel.add(linkLabel,gbc);
+
+        linkLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Create a new frame when the link is clicked
+                new LoginForm();
+            }
+        });
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
         //signupButton on click
@@ -88,6 +103,8 @@ public class SignUpForm {
                             "Success",
                             JOptionPane.INFORMATION_MESSAGE
                     );
+                    new LoginForm();
+
 
                 }
 
@@ -95,7 +112,7 @@ public class SignUpForm {
             else{
                 JOptionPane.showMessageDialog(
                         null,
-                        "All fields must be provided","Error",JOptionPane.ERROR);
+                        "All fields must be provided","Error",JOptionPane.ERROR_MESSAGE);
 
             }
 
